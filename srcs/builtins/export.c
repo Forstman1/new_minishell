@@ -27,28 +27,7 @@ int	check_keys(t_env *lst, char *str)
 
 
 
-void	export_env(t_env **env, char *str, char *find)
-{
-	t_env	*lst;
-	char	*key;
-	char	*value;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	lst = *env;
-	if (!find)
-	{
-		sorted_env(lst);
-		return ;
-	}
-	else
-		export_things(lst, find, key, value);
-}
-
-
-void	export_env(t_env **env, char *str, char **find)
+void	export_env(t_env **env, char *str, char **find, t_arg *arg)
 {
 	t_env	*lst;
 	int		i;
@@ -57,14 +36,14 @@ void	export_env(t_env **env, char *str, char **find)
 	lst = *env;
 	if (!find[1])
 	{
-		sorted_env(lst);
+		sorted_env(lst, arg);
 		return ;
 	}
 	else
 	{
 		while (find[i])
 		{
-			export_utils(*env, str, find[i]);
+			export_things(lst, find, arg);
 			i++;
 		}
 	}

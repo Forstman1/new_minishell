@@ -14,9 +14,8 @@
 
 #include "../../ms_head.h"
 
-void	sorted_env(t_env *lst)
+void	sorted_env(t_env *lst, t_arg *arg)
 {
-	char	**keys;
 	t_env	*sort;
 	char	*tmp;
 	int		i;
@@ -29,50 +28,87 @@ void	sorted_env(t_env *lst)
 		i++;
 		sort = sort->next;
 	}
-	keys = (char**)malloc(sizeof(char*) * (i + 1));
-	sort = lst;
-	i = 0;
-	while (sort)
+	if (!arg->keys)
 	{
-		keys[i] = ft_strdup(sort->key);
-		i++;
-		sort = sort->next;
-	}
-	i = 0;
-	while (keys[i])
-	{
-		j = 0;
-		while (keys[j])
-		{
-			if (ft_strcmp2(keys[j], keys[i]) > 0)
-			{
-				tmp = keys[i];
-				keys[i] = keys[j];
-				keys[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (keys[i])
-	{
+		arg->keys = (char**)malloc(sizeof(char*) * (i + 1));
 		sort = lst;
+		i = 0;
 		while (sort)
 		{
-			if (!ft_strcmp(keys[i], sort->key))
-			{
-				printf("declare -x %s=\"%s\"\n", keys[i], sort->value);
-				break ;
-			}
+			arg->keys[i] = ft_strdup(sort->key);
+			i++;
 			sort = sort->next;
 		}
-		i++;
+		i = 0;
+		while (arg->keys[i])
+		{
+			j = 0;
+			while (arg->keys[j])
+			{
+				if (ft_strcmp2(arg->keys[j], arg->keys[i]) > 0)
+				{
+					tmp = arg->keys[i];
+					arg->keys[i] = arg->keys[j];
+					arg->keys[j] = tmp;
+				}
+				j++;
+			}
+			i++;
+		}
+		i = 0;
+		while (arg->keys[i])
+		{
+			sort = lst;
+			while (sort)
+			{
+				if (!ft_strcmp(arg->keys[i], sort->key))
+				{
+					printf("declare -x %s=\"%s\"\n", arg->keys[i], sort->value);
+					break ;
+				}
+				sort = sort->next;
+			}
+			i++;
+		}
 	}
-	while (keys[i])
+	else
 	{
-		free(keys[i]);
-		i++;
+		while (arg->keys[i])
+		{
+			j = 0;
+			while (arg->keys[j])
+			{
+				if (ft_strcmp2(arg->keys[j], arg->keys[i]) > 0)
+				{
+					tmp = arg->keys[i];
+					arg->keys[i] = arg->keys[j];
+					arg->keys[j] = tmp;
+				}
+				j++;
+			}
+			i++;
+		}
+		i = 0;
+		while (arg->keys[i])
+		{
+			sort = lst;
+			while (sort)
+			{
+				if (!ft_strcmp(arg->keys[i], sort->key))
+				{
+					printf("declare -x %s=\"%s\"\n", arg->keys[i], sort->value);
+					break ;
+				}
+				sort = sort->next;
+			}
+			i++;
+		}
 	}
-	free(keys);
+	
+	// while (keys[i])
+	// {
+	// 	free(keys[i]);
+	// 	i++;
+	// }
+	// free(keys);
 }

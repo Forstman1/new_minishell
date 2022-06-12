@@ -79,7 +79,7 @@ int	check_cmd(t_env	*env, t_arg *arg, char *str)
 	return (0);
 }
 
-void	builtins(t_env	*envi, char *str)
+void	builtins(t_env	*envi, char *str, t_arg *arg)
 {
 	char	**splited;
 
@@ -87,7 +87,7 @@ void	builtins(t_env	*envi, char *str)
 	if (!ft_strcmp1(splited[0], "pwd"))
 		pwd(envi, 1);
 	else if (!ft_strcmp(splited[0], "export"))
-		export_env(&envi, splited[0], splited);
+		export_env(&envi, splited[0], splited, arg);
 	else if (!ft_strcmp(splited[0], "unset"))
 		unset_env(&envi, splited);
 	else if (!ft_strcmp1(splited[0], "env"))

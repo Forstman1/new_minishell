@@ -39,7 +39,7 @@ void	her_doc(t_token *token, t_arg *arg)
 	i = 0;
 	str = NULL;
 	tmp = NULL;
-	while (true)
+	while (1)
 	{
 		str = readline("");
 		if (!ft_strcmp(str, token->content))
@@ -67,7 +67,7 @@ int	one_cmd(t_env	*env, t_arg *arg)
 		i = 0;
 		if (check_builtins(env, arg->args[i]))
 		{
-			builtins(env, arg->args[i]);
+			builtins(env, arg->args[i], arg);
 			return (1);
 		}
 	}
@@ -109,7 +109,7 @@ void	check_command(t_env	*env, t_arg *arg)
 						ft_dup(token, arg, 1);
 					else
 						ft_dup(token, arg, 0);
-					builtins(env, token->content);
+					builtins(env, token->content, arg);
 					close(arg->fd[1]);
 					exit(0);
 				}

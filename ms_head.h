@@ -63,6 +63,7 @@ typedef struct s_arg
 	char	*cmd_path;
 	char	**cmd;
 	int		fd[2];
+	char	**keys;
 	int		in_fd;
 	int		i;
 } t_arg;
@@ -84,11 +85,12 @@ int		ft_strcmp2(char *s1, char *s2);
 /* --------------------------------- builtins --------------------------------- */
 
 char	*pwd(t_env *env, int i);
-void	export_env(t_env **env, char *str, char **find);
-void	sorted_env(t_env *lst);
-void	export_things(t_env *env, char	*find, char	*key, char	*value);
+void	export_env(t_env **env, char *str, char **find, t_arg *arg);
+int		check_equal(t_env *lst, char *str, t_arg *arg);
+void	sorted_env(t_env *lst, t_arg *arg);
+void	export_things(t_env *env, char	*find, t_arg *arg);
 void	unset_env(t_env **env, char **str);
-void	unset_utils(t_env *lst, char *find);
+void	unset_utils(t_env **env, t_env *lst, char *find);
 void	env(t_env *env);
 void	exit10(void);
 void	echo_env(t_env *env, char **str);
@@ -108,11 +110,13 @@ void	signals(void);
 
 /* --------------------------------- Pipes --------------------------------- */
 
+int		check_keys(t_env *lst, char *str);
+
 void	check_command(t_env	*env, t_arg *arg);
 int		check_path(t_env *env, t_arg *arg);
 void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j);
 int		check_builtins(t_env	*envi, char *str);
-void	builtins(t_env	*envi, char *str);
+void	builtins(t_env	*envi, char *str, t_arg *arg);
 void	check_command(t_env	*env, t_arg *arg);
 int		check_cmd(t_env	*env, t_arg *arg, char *str);
 
