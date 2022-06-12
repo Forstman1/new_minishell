@@ -28,7 +28,7 @@ void	ft_dup(t_token *token, t_arg *arg, int j)
 		}
 		else if (token->next->token == '>>')
 		{
-			fd = open(token->next->content, O_CREAT | O_WRONLY | _APPEND_OK);
+			fd = open(token->next->content, O_CREAT | O_WRONLY | _APPEND);
 			dup2(fd, 1);
 			dup2(arg->in_fd, 0);
 			close(arg->fd[1]);

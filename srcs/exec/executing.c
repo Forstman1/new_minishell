@@ -22,21 +22,37 @@ void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j)
 	if (i == 0)
 	{
 		if (j == 1)
-		{
 			ft_dup(token, arg, 1);
-			// dup2(arg->fd[1], 1);
-			// dup2(arg->in_fd, 0);
-			// close(arg->fd[1]);
-		}
 		else
-		{
 			ft_dup(token, arg, 0);
-			//dup2(arg->in_fd, 0);
-			// close(arg->fd[1]);
-		}
 		execve(arg->cmd_path, arg->cmd, arg->paths);
 	}
 	waitpid(i, NULL, 0);
+}
+
+void	her_doc(t_token *token, t_arg *arg)
+{
+	int		i;
+	char	*str;
+	char	*tmp;
+
+	i = 0;
+	str = NULL;
+	tmp = NULL;
+	while (true)
+	{
+		str = readline("");
+		if (!ft_strcmp(str, token->content))
+		{
+			return ;
+		}
+		else
+		{
+			ft_putstr_fd(str, arg->in_fd);
+			free(str);
+			str = NULL;
+		}
+	}
 }
 
 int	one_cmd(t_env	*env, t_arg *arg)
@@ -76,7 +92,6 @@ void	check_command(t_env	*env, t_arg *arg)
 		ft_putstr_fd("envirement is not set\n", 2);
 		return ;
 	}
-	check_path(env, arg);
 	if (one_cmd(env, arg))
 		return ;
 	i = 0;
@@ -104,6 +119,8 @@ void	check_command(t_env	*env, t_arg *arg)
 			}
 			else
 			{
+				if (check_path(env, arg))
+					return ;
 				j = check_cmd(env, arg, token->content);
 				if (j == 1)
 				{
@@ -126,8 +143,13 @@ void	check_command(t_env	*env, t_arg *arg)
 				ft_putstr_fd("file not found", 2);
 				return ;
 			}
-			arg->in_fd = open(token->content, O_CREAT | O_RDONLY);
+			arg->in_fd = open(token->content, O_RDONLY);
 			token = token->next;
+		}
+		else if (token->token == '<<')
+		{
+			arg->in_fd = open(".infiles", O_RDWR);
+			her_doc(token, arg);
 		}
 		else
 			token = token->next;

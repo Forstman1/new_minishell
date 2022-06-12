@@ -28,34 +28,35 @@ void	echo_env(t_env *env, char **str)
 	}
 	if (str[1][0] == '-' && str[1][1] == 'n')
 	{
-		while (str[1][i])
+		j = 0;
+		i = 1;
+		while (str[i])
 		{
-			if (str[1][i] == 'n')
-				i++;
-			else
+			j = 0;
+			while (str[i][j])
 			{
-				i = 1;
-				while (str[i])
+				if (str[i][j] == '-' && j == 0)
+					j++;
+				else if (str[i][j] != 'n')
 				{
-					printf("%s", str[i]);
-					i++;
+					j = 0;
+					while (str[i])
+					{
+						printf("%s", str[i]);
+						i++;
+					}
+					return ;
 				}
+				else if (str[i][j] == 'n')
+					j++;
 			}
-		}
-		if (str[1][i] == '\0')
-		{
-			i = 2;
-			while (str[i])
-			{
-				printf("%s", str[i]);
-				i++;
-			}
+			i++;
 		}
 	}
 	i = 1;
 	while (str[i])
 	{
-		printf("%s", str[i]);
+		printf("%s\n", str[i]);
 		i++;
 	}
 }

@@ -13,8 +13,11 @@
 
 #include "../../ms_head.h"
 
-void	unset_utils(t_env *lst, char *find)
+void	unset_utils(t_env **env, t_env *lst, char *find)
 {
+	t_env	*tmp;
+
+	tmp = NULL;
 	while (lst)
 	{
 		if (!ft_strncmp(lst->key, find, ft_strlen(lst->key)))
@@ -40,10 +43,10 @@ void	unset_env(t_env **env, char **str)
 	int		i;
 
 	lst = *env;
-	i = 0;
+	i = 1;
 	while (str[i])
 	{
-		unset_utils(lst, str[i]);
+		unset_utils(env, lst, str[i]);
 		i++;
 	}
 }

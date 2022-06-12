@@ -109,7 +109,7 @@ void	signals(void);
 /* --------------------------------- Pipes --------------------------------- */
 
 void	check_command(t_env	*env, t_arg *arg);
-void	check_path(t_env	*env, t_arg *arg);
+int		check_path(t_env *env, t_arg *arg);
 void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j);
 int		check_builtins(t_env	*envi, char *str);
 void	builtins(t_env	*envi, char *str);

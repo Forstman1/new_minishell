@@ -12,7 +12,7 @@
 
 #include "../../ms_head.h"
 
-void	check_path(t_env	*env, t_arg *arg)
+int	check_path(t_env *env, t_arg *arg)
 {
 	t_env	*lst;
 	int		i;
@@ -28,14 +28,14 @@ void	check_path(t_env	*env, t_arg *arg)
 				arg->paths = ft_split(lst->value, ':');
 				i = 1;
 			}
-			break ;
+			return (0);
 		}
 		lst = lst->next;
 	}
 	if (i != 1)
 	{
 		ft_putstr_fd("PATH not found\n", 2);
-		exit(0);
+		return (1);
 	}
 }
 
@@ -49,18 +49,31 @@ int	check_cmd(t_env	*env, t_arg *arg, char *str)
 	arg->i++;
 	arg->cmd = ft_split(str, ' ');
 	str = arg->cmd[0];
-	while (arg->paths[i])
+	if (str[0] == '/')
 	{
-		cmd_path = ft_strjoin(arg->paths[i], "/");
-		tmp = cmd_path;
-		cmd_path = ft_strjoin(cmd_path, str);
-		free(tmp);
-		if (!access(cmd_path, X_OK))
+		if (!access(str, X_OK))
 		{
-			arg->cmd_path = cmd_path;
+			arg->cmd_path = str;
 			return (1);
 		}
-		i++;
+	}
+	else
+	{
+		while (arg->paths[i])
+		{
+			cmd_path = ft_strjoin(arg->paths[i], "/");
+			tmp = cmd_path;
+			cmd_path = ft_strjoin(cmd_path, str);
+			free(tmp);
+			if (!access(cmd_path, X_OK))
+			{
+				arg->cmd_path = cmd_path;
+				return (1);
+			}
+			i++;
+		}
+		ft_putstr_fd("command not found\n", 2);
+		return (0);
 	}
 	ft_putstr_fd("Command not found\n", 2);
 	return (0);
@@ -76,7 +89,7 @@ void	builtins(t_env	*envi, char *str)
 	else if (!ft_strcmp(splited[0], "export"))
 		export_env(&envi, splited[0], splited);
 	else if (!ft_strcmp(splited[0], "unset"))
-		unset_env(&envi, splited[0], splited);
+		unset_env(&envi, splited);
 	else if (!ft_strcmp1(splited[0], "env"))
 		env(envi);
 	else if (!ft_strcmp(splited[0], "exit"))
