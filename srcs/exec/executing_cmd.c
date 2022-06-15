@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../ms_head.h"
 
 void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j)
 {
-	int i;
+	int	i;
 
 	i = fork();
 	if (i == 0)
@@ -31,9 +30,8 @@ void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j)
 
 void	executing_builtins(t_token *token, t_arg *arg, t_env *env)
 {
-	int id;
+	int	id;
 
-	id = 0;
 	id = fork();
 	if (id == 0)
 	{
@@ -75,4 +73,3 @@ int	cmd_token(t_token *token, t_arg *arg, t_env *env)
 	}
 	return (0);
 }
-

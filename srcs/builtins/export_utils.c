@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../ms_head.h"
 
 void	sorted_env(t_env *lst, t_arg *arg)
@@ -29,7 +27,7 @@ void	sorted_env(t_env *lst, t_arg *arg)
 		i++;
 		sort = sort->next;
 	}
-	keys = (char**)malloc(sizeof(char*) * (i + 1));
+	keys = (char **)malloc(sizeof(char *) * (i + 1));
 	sort = lst;
 	i = 0;
 	while (sort)

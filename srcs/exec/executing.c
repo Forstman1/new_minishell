@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../ms_head.h"
-
 
 void	her_doc(t_token *token, t_arg *arg)
 {
@@ -41,7 +39,7 @@ void	her_doc(t_token *token, t_arg *arg)
 
 int	one_cmd(t_env	*env, t_arg *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg->args[i])

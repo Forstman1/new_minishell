@@ -10,13 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../ms_head.h"
 
-
-int check_equal(t_env *lst, char *str, t_arg *arg)
+int	check_equal(t_env *lst, char *str, t_arg *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -44,7 +42,7 @@ void	export_things(t_env *env, char	*find, t_arg *arg)
 	value = NULL;
 	lst1 = NULL;
 	lst = env;
-	if (check_keys(lst, find, &j))
+	if (check_keys(lst, find, &j, i))
 		return ;
 	else
 	{

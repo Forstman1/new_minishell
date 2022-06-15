@@ -10,19 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../ms_head.h"
 
-
-int	check_keys(t_env *lst, char *str, int *j)
+int	check_keys(t_env *lst, char *str, int *j, int i)
 {
 	t_env	*lst1;
-	int		i;
 
-	i = 0;
-	lst1 = NULL;
 	if (ft_isalpha(str[0]) || str[0] == '_')
-		return (0);	
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '=')
@@ -44,11 +39,7 @@ int	check_keys(t_env *lst, char *str, int *j)
 		ft_lstadd_back1(&lst, lst1);
 		return (1);
 	}
-	ft_putstr_fd("error", 2);
-	return (1);
 }
-
-
 
 void	export_env(t_env **env, char *str, char **find, t_arg *arg)
 {

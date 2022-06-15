@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../ms_head.h"
 
 void	ft_dup(t_token *token, t_arg *arg, int j)
 {
-	int fd;
+	int	fd;
 
 	if (j == 1)
 	{

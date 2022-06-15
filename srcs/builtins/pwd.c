@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../ms_head.h"
 
 char	*pwd(t_env *env, int i)
 {
-	t_env *lst;
+	t_env	*lst;
 
 	lst = env;
 	while (lst)

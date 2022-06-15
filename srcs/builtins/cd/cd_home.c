@@ -10,15 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../../ms_head.h"
 
 void	cd_home(t_env *env, char *arg)
 {
 	t_env	*lst;
-	char	*OLDPWD;
+	char	*oldpwd;
 	char	*home;
-	
+
 	lst = env;
 	while (lst)
 	{
@@ -45,7 +44,7 @@ void	cd_home(t_env *env, char *arg)
 		if (!ft_strcmp(lst->key, "PWD"))
 		{
 			if (lst->value)
-				OLDPWD = lst->value;
+				oldpwd = lst->value;
 			lst->value = home;
 			break ;
 		}
@@ -62,7 +61,7 @@ void	cd_home(t_env *env, char *arg)
 	{
 		if (!ft_strcmp(lst->key, "OLDPWD"))
 		{
-			lst->value = OLDPWD;
+			lst->value = oldpwd;
 			return ;
 		}
 		lst = lst->next;

@@ -12,15 +12,42 @@
 
 #include "../../ms_head.h"
 
+int	flag_option(t_env *env, char **str, int j, int i)
+{
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j])
+		{
+			if (str[i][j] == '-' && j == 0)
+				j++;
+			else if (str[i][j] != 'n')
+			{
+				while (str[i])
+				{
+					if (str[i + 1] != NULL)
+						printf("%s ", str[i]);
+					else
+						printf("%s", str[i]);
+					i++;
+				}
+				return (1);
+			}
+			else if (str[i][j] == 'n')
+				j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 void	echo_env1(t_env *env, char **str)
 {
 	int		i;
 	int		j;
-	t_env	*lst;
 
 	i = 1;
 	j = 0;
-	lst = env;
 	if (!str[1])
 	{
 		ft_putstr_fd("\n", 1);
@@ -28,35 +55,16 @@ void	echo_env1(t_env *env, char **str)
 	}
 	if (str[1][0] == '-' && str[1][1] == 'n')
 	{
-		j = 0;
-		i = 1;
-		while (str[i])
-		{
-			j = 0;
-			while (str[i][j])
-			{
-				if (str[i][j] == '-' && j == 0)
-					j++;
-				else if (str[i][j] != 'n')
-				{
-					j = 0;
-					while (str[i])
-					{
-						printf("%s", str[i]);
-						i++;
-					}
-					return ;
-				}
-				else if (str[i][j] == 'n')
-					j++;
-			}
-			i++;
-		}
+		if (flag_option(env, str, j, i))
+			return ;
 	}
-	i = 1;
 	while (str[i])
 	{
-		printf("%s\n", str[i]);
+		if (str[i + 1] != NULL)
+			printf("%s ", str[i]);
+		else
+			printf("%s", str[i]);
 		i++;
 	}
+	write(1, "\n", 1);
 }

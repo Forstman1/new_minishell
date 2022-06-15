@@ -101,7 +101,7 @@ void	signals(void);
 
 /* --------------------------------- Pipes --------------------------------- */
 
-int		check_keys(t_env *lst, char *str, int *j);
+int		check_keys(t_env *lst, char *str, int *j, int i);
 void	check_command(t_env	*env, t_arg *arg);
 int		check_path(t_env *env, t_arg *arg);
 void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j);

@@ -33,19 +33,13 @@ void	check_oldpwd(t_env *env, char	*oldpwd)
 	ft_lstadd_back1(&env, lst);
 }
 
-int	check_cases(t_env *env, char *arg, char *dir, char *oldpwd)
+void	update_dir(t_env *env, char	*dir, char	*oldpwd)
 {
-	t_env	*lst;
 	int		i;
+	t_env	*lst;
 
 	i = 0;
 	lst = env;
-	dir = NULL;
-	if (chdir(arg))
-	{
-		printf("not sush directory\n");
-		return (1);
-	}
 	while (lst)
 	{
 		if (!ft_strcmp(lst->key, "PWD"))
@@ -63,6 +57,22 @@ int	check_cases(t_env *env, char *arg, char *dir, char *oldpwd)
 		lst = ft_lstnew1("PWD", getcwd(dir, 9999));
 		ft_lstadd_back1(&env, lst);
 	}
+}
+
+int	check_cases(t_env *env, char *arg, char *dir, char *oldpwd)
+{
+	t_env	*lst;
+	int		i;
+
+	i = 0;
+	lst = env;
+	dir = NULL;
+	if (chdir(arg))
+	{
+		printf("not sush directory\n");
+		return (1);
+	}
+	update_dir(lst, dir, oldpwd);
 	check_oldpwd(env, oldpwd);
 	return (0);
 }
