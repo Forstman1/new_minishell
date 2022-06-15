@@ -20,6 +20,7 @@ void	create_env(t_env **env, char **envirement, int i)
 	char	*value;
 
 	j = 0;
+	*env = NULL;
 	while (i > 0)
 	{
 		value = ft_strdup(envirement[j]);

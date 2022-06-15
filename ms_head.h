@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_header.h                                        :+:      :+:    :+:   */
+/*   ms_head.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:        <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: sahafid <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created:                     by                   #+#    #+#             */
-/*   Updated:                     by                  ###   ########.fr       */
+/*   Created: 2022/05/29 16:08:22 by sahafid           #+#    #+#             */
+/*   Updated: 2022/05/29 16:08:23 by sahafid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MS_HEADER_H
-#define MS_HEADER_H
+# define MS_HEADER_H
 
 /* ---------------------------------- Libraries ----------------------------- */
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h> 
-#include <stdio.h>
-#include "libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h> 
+# include <stdio.h>
+# include "libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 
 /* ----------------------------------- Enums -------------------------------- */
 typedef enum e_enum
@@ -43,8 +42,6 @@ typedef struct s_env
 	struct s_env	*next;
 } t_env;
 
-
-
 typedef struct s_token
 {
     struct s_token  *prev;
@@ -54,7 +51,6 @@ typedef struct s_token
     struct s_token  *next;
 }    t_token;
 
-
 typedef struct s_arg
 {
 	char	**args;
@@ -63,7 +59,6 @@ typedef struct s_arg
 	char	*cmd_path;
 	char	**cmd;
 	int		fd[2];
-	char	**keys;
 	int		in_fd;
 	int		i;
 } t_arg;
@@ -80,8 +75,6 @@ int		ft_strcmp1(char *s1, char *s2);
 char	*ft_strrchr1(char *str, int c);
 int		ft_strcmp2(char *s1, char *s2);
 
-
-
 /* --------------------------------- builtins --------------------------------- */
 
 char	*pwd(t_env *env, int i);
@@ -93,8 +86,7 @@ void	unset_env(t_env **env, char **str);
 void	unset_utils(t_env **env, t_env *lst, char *find);
 void	env(t_env *env);
 void	exit10(void);
-void	echo_env(t_env *env, char **str);
-
+void	echo_env1(t_env *env, char **str);
 
 /* --------------------------------- cd not used anymore --------------------------------- */
 
@@ -105,13 +97,11 @@ void	cd_home(t_env *env, char *arg);
 void	cd_root(t_env *env, char *arg);
 void	cd_samdir(t_env *env, char *arg);
 void	cd_dash(t_env *env, char *arg);
-
 void	signals(void);
 
 /* --------------------------------- Pipes --------------------------------- */
 
-int		check_keys(t_env *lst, char *str);
-
+int		check_keys(t_env *lst, char *str, int *j);
 void	check_command(t_env	*env, t_arg *arg);
 int		check_path(t_env *env, t_arg *arg);
 void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j);
@@ -119,8 +109,8 @@ int		check_builtins(t_env	*envi, char *str);
 void	builtins(t_env	*envi, char *str, t_arg *arg);
 void	check_command(t_env	*env, t_arg *arg);
 int		check_cmd(t_env	*env, t_arg *arg, char *str);
-
 void	ft_dup(t_token *token, t_arg *arg, int j);
-
+int		cmd_token(t_token *token, t_arg *arg, t_env *env);
+void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j);
 
 #endif 

@@ -18,6 +18,7 @@ void	sorted_env(t_env *lst, t_arg *arg)
 {
 	t_env	*sort;
 	char	*tmp;
+	char	**keys;
 	int		i;
 	int		j;
 
@@ -28,87 +29,58 @@ void	sorted_env(t_env *lst, t_arg *arg)
 		i++;
 		sort = sort->next;
 	}
-	if (!arg->keys)
+	keys = (char**)malloc(sizeof(char*) * (i + 1));
+	sort = lst;
+	i = 0;
+	while (sort)
 	{
-		arg->keys = (char**)malloc(sizeof(char*) * (i + 1));
+		if (sort->key != NULL)
+			keys[i] = ft_strdup(sort->key);
+		else
+			keys[i] = NULL;
+		i++;
+		sort = sort->next;
+	}
+	keys[i] = NULL;
+	i = 0;
+	while (keys[i])
+	{
+		j = 0;
+		while (keys[j])
+		{
+			if (ft_strcmp2(keys[j], keys[i]) > 0)
+			{
+				tmp = keys[i];
+				keys[i] = keys[j];
+				keys[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (keys[i])
+	{
 		sort = lst;
-		i = 0;
 		while (sort)
 		{
-			arg->keys[i] = ft_strdup(sort->key);
-			i++;
+			if (!ft_strcmp(keys[i], sort->key))
+			{
+				if (sort->value == NULL)
+					printf("declare -x %s\n", keys[i]);
+				else
+					printf("declare -x %s=\"%s\"\n", keys[i], sort->value);
+				break ;
+			}
 			sort = sort->next;
 		}
-		i = 0;
-		while (arg->keys[i])
-		{
-			j = 0;
-			while (arg->keys[j])
-			{
-				if (ft_strcmp2(arg->keys[j], arg->keys[i]) > 0)
-				{
-					tmp = arg->keys[i];
-					arg->keys[i] = arg->keys[j];
-					arg->keys[j] = tmp;
-				}
-				j++;
-			}
-			i++;
-		}
-		i = 0;
-		while (arg->keys[i])
-		{
-			sort = lst;
-			while (sort)
-			{
-				if (!ft_strcmp(arg->keys[i], sort->key))
-				{
-					printf("declare -x %s=\"%s\"\n", arg->keys[i], sort->value);
-					break ;
-				}
-				sort = sort->next;
-			}
-			i++;
-		}
+		i++;
 	}
-	else
+	i = 0;
+	while (keys[i])
 	{
-		while (arg->keys[i])
-		{
-			j = 0;
-			while (arg->keys[j])
-			{
-				if (ft_strcmp2(arg->keys[j], arg->keys[i]) > 0)
-				{
-					tmp = arg->keys[i];
-					arg->keys[i] = arg->keys[j];
-					arg->keys[j] = tmp;
-				}
-				j++;
-			}
-			i++;
-		}
-		i = 0;
-		while (arg->keys[i])
-		{
-			sort = lst;
-			while (sort)
-			{
-				if (!ft_strcmp(arg->keys[i], sort->key))
-				{
-					printf("declare -x %s=\"%s\"\n", arg->keys[i], sort->value);
-					break ;
-				}
-				sort = sort->next;
-			}
-			i++;
-		}
+		free(keys[i]);
+		i++;
 	}
-	
-	// while (keys[i])
-	// {
-	// 	free(keys[i]);
-	// 	i++;
-	// }
-	// free(keys);
+	free(keys);
 }

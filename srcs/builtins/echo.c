@@ -12,7 +12,7 @@
 
 #include "../../ms_head.h"
 
-void	echo_env(t_env *env, char **str)
+void	echo_env1(t_env *env, char **str)
 {
 	int		i;
 	int		j;

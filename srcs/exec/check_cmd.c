@@ -97,7 +97,7 @@ void	builtins(t_env	*envi, char *str, t_arg *arg)
 	else if (!ft_strcmp(splited[0], "cd"))
 		cd_env(envi, splited[0], splited[1]);
 	else if (!ft_strcmp(splited[0], "echo"))
-		echo_env(envi, splited);
+		echo_env1(envi, splited);
 }
 
 int	check_builtins(t_env	*envi, char *str)
