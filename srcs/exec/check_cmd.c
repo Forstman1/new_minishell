@@ -42,7 +42,7 @@ int	check_path(t_env *env, t_arg *arg)
 int	checking_path(t_arg *arg, char	*str, char	*tmp)
 {
 	int		i;
-	char	cmd_path;
+	char	*cmd_path;
 
 	i = 0;
 	while (arg->paths[i])
@@ -64,7 +64,7 @@ int	checking_path(t_arg *arg, char	*str, char	*tmp)
 int	check_cmd(t_env	*env, t_arg *arg, char *str)
 {
 	int		i;
-	char	tmp;
+	char	*tmp;
 
 	i = 0;
 	arg->cmd = ft_split(str, ' ');
