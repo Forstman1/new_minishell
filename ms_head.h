@@ -14,6 +14,7 @@
 # define MS_HEADER_H
 
 /* ---------------------------------- Libraries ----------------------------- */
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h> 
@@ -23,6 +24,7 @@
 # include <readline/history.h>
 
 /* ----------------------------------- Enums -------------------------------- */
+
 typedef enum e_enum
 {
 	OPT1,
@@ -63,9 +65,7 @@ typedef struct s_arg
 	int		i;
 } t_arg;
 
-
 /* ------------------------------ Utils functions ---------------------------- */
-
 
 void	ft_lstadd_back1(t_env **lst, t_env *new);
 t_env	*ft_lstnew1(char *key, char *value);
@@ -77,6 +77,7 @@ int		ft_strcmp2(char *s1, char *s2);
 
 /* --------------------------------- builtins --------------------------------- */
 
+void	builtins(t_env	*envi, char *str, t_arg *arg);
 char	*pwd(t_env *env, int i);
 void	export_env(t_env **env, char *str, char **find, t_arg *arg);
 int		check_equal(t_env *lst, char *str, t_arg *arg);
@@ -97,7 +98,6 @@ void	cd_home(t_env *env, char *arg);
 void	cd_root(t_env *env, char *arg);
 void	cd_samdir(t_env *env, char *arg);
 void	cd_dash(t_env *env, char *arg);
-void	signals(void);
 
 /* --------------------------------- Pipes --------------------------------- */
 
@@ -106,11 +106,12 @@ void	check_command(t_env	*env, t_arg *arg);
 int		check_path(t_env *env, t_arg *arg);
 void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j);
 int		check_builtins(t_env	*envi, char *str);
-void	builtins(t_env	*envi, char *str, t_arg *arg);
 void	check_command(t_env	*env, t_arg *arg);
 int		check_cmd(t_env	*env, t_arg *arg, char *str);
 void	ft_dup(t_token *token, t_arg *arg, int j);
 int		cmd_token(t_token *token, t_arg *arg, t_env *env);
 void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j);
+void	signals(void);
+void	check_oldpwd(t_env *env, char	*oldpwd);
 
 #endif 

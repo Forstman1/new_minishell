@@ -49,7 +49,6 @@ int	main(int ac, char **av, char **env)
 	{
 		arg.str = NULL;
 		arg.str = readline("");
-		// signals();
 		arg.args = NULL;
 		arg.args = ft_split(arg.str, '|');
 		check_command(envi, &arg);
@@ -60,7 +59,6 @@ int	main(int ac, char **av, char **env)
 			arg.args[i] = NULL;
 			i++;
 		}
-		arg.str = NULL;
 	}
 	return (0);
 }

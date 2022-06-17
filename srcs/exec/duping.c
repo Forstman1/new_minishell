@@ -12,6 +12,14 @@
 
 #include "../../ms_head.h"
 
+void	redirection_append(t_token *token, int fd, t_arg *arg)
+{
+	fd = open(token->next->content, O_CREAT | O_WRONLY | O_APPEND);
+	dup2(fd, 1);
+	dup2(arg->in_fd, 0);
+	close(arg->fd[1]);
+}
+
 void	ft_dup(t_token *token, t_arg *arg, int j)
 {
 	int	fd;
@@ -26,12 +34,7 @@ void	ft_dup(t_token *token, t_arg *arg, int j)
 			close(arg->fd[1]);
 		}
 		else if (token->next->token == '>>')
-		{
-			fd = open(token->next->content, O_CREAT | O_WRONLY | O_APPEND);
-			dup2(fd, 1);
-			dup2(arg->in_fd, 0);
-			close(arg->fd[1]);
-		}
+			redirection_append(token, fd, arg);
 		else
 		{
 			dup2(arg->fd[1], 1);

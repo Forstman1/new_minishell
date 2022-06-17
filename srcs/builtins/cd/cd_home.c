@@ -12,21 +12,16 @@
 
 #include "../../../ms_head.h"
 
-void	cd_home(t_env *env, char *arg)
+int	get_home(char	*home, t_env *lst)
 {
-	t_env	*lst;
-	char	*oldpwd;
-	char	*home;
-
-	lst = env;
 	while (lst)
 	{
 		if (!ft_strcmp(lst->key, "HOME"))
 		{
 			if (chdir(lst->value))
 			{
-				printf("commad not found\n");
-				return ;
+				printf("no such file or directory\n");
+				return (1);
 			}
 			home = lst->value;
 			break ;
@@ -35,10 +30,21 @@ void	cd_home(t_env *env, char *arg)
 	}
 	if (!home)
 	{
-		printf("commad not found\n");
-		return ;
+		printf("home not found\n");
+		return (1);
 	}
+	return (0);
+}
+
+void	cd_home(t_env *env, char *arg)
+{
+	t_env	*lst;
+	char	*oldpwd;
+	char	*home;
+
 	lst = env;
+	if (get_home(home, lst))
+		return ;
 	while (lst)
 	{
 		if (!ft_strcmp(lst->key, "PWD"))
@@ -56,14 +62,5 @@ void	cd_home(t_env *env, char *arg)
 		lst = ft_lstnew1("PWD", getcwd(home, 9999));
 		ft_lstadd_back1(&env, lst);
 	}
-	lst = env;
-	while (lst)
-	{
-		if (!ft_strcmp(lst->key, "OLDPWD"))
-		{
-			lst->value = oldpwd;
-			return ;
-		}
-		lst = lst->next;
-	}
+	check_oldpwd(env, oldpwd);
 }

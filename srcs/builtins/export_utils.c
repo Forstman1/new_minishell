@@ -12,50 +12,21 @@
 
 #include "../../ms_head.h"
 
-void	sorted_env(t_env *lst, t_arg *arg)
+void	free_export(char	**keys, int i)
 {
-	t_env	*sort;
-	char	*tmp;
-	char	**keys;
-	int		i;
-	int		j;
-
-	i = 0;
-	sort = lst;
-	while (sort)
-	{
-		i++;
-		sort = sort->next;
-	}
-	keys = (char **)malloc(sizeof(char *) * (i + 1));
-	sort = lst;
-	i = 0;
-	while (sort)
-	{
-		if (sort->key != NULL)
-			keys[i] = ft_strdup(sort->key);
-		else
-			keys[i] = NULL;
-		i++;
-		sort = sort->next;
-	}
-	keys[i] = NULL;
 	i = 0;
 	while (keys[i])
 	{
-		j = 0;
-		while (keys[j])
-		{
-			if (ft_strcmp2(keys[j], keys[i]) > 0)
-			{
-				tmp = keys[i];
-				keys[i] = keys[j];
-				keys[j] = tmp;
-			}
-			j++;
-		}
+		free(keys[i]);
 		i++;
 	}
+	free(keys);
+}
+
+void	print_export(char	**keys, t_env *sort, int i)
+{
+	t_env	*lst;
+
 	i = 0;
 	while (keys[i])
 	{
@@ -74,11 +45,67 @@ void	sorted_env(t_env *lst, t_arg *arg)
 		}
 		i++;
 	}
+	free_export(keys, i);
+}
+
+void	compare_keys(char	**keys, int i)
+{
+	char	*tmp;
+	int		j;
+
+	tmp = NULL;
 	i = 0;
 	while (keys[i])
 	{
-		free(keys[i]);
+		j = 0;
+		while (keys[j])
+		{
+			if (ft_strcmp2(keys[j], keys[i]) > 0)
+			{
+				tmp = keys[i];
+				keys[i] = keys[j];
+				keys[j] = tmp;
+			}
+			j++;
+		}
 		i++;
 	}
-	free(keys);
+}
+
+void	filling_keys(t_env *lst, char	**keys)
+{
+	t_env	*sort;
+	int		i;
+
+	i = 0;
+	sort = lst;
+	while (sort)
+	{
+		if (sort->key != NULL)
+			keys[i] = ft_strdup(sort->key);
+		else
+			keys[i] = NULL;
+		i++;
+		sort = sort->next;
+	}
+	keys[i] = NULL;
+}
+
+void	sorted_env(t_env *lst, t_arg *arg)
+{
+	t_env	*sort;
+	char	**keys;
+	int		i;
+
+	i = 0;
+	sort = lst;
+	while (sort)
+	{
+		i++;
+		sort = sort->next;
+	}
+	keys = (char **)malloc(sizeof(char *) * (i + 1));
+	filling_keys(lst, keys);
+	compare_keys(keys, i);
+	print_export(keys, lst, i);
 }
