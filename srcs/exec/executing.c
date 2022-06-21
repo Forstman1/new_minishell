@@ -25,9 +25,7 @@ void	her_doc(t_token *token, t_arg *arg)
 	{
 		str = readline("");
 		if (!ft_strcmp(str, token->content))
-		{
 			return ;
-		}
 		else
 		{
 			ft_putstr_fd(str, arg->in_fd);
@@ -65,6 +63,7 @@ void	check_command(t_env	*env, t_arg *arg)
 	if (!env)
 	{
 		ft_putstr_fd("envirement is not set\n", 2);
+		status.exit_status = 1;
 		return ;
 	}
 	if (one_cmd(env, arg))
@@ -83,6 +82,7 @@ void	check_command(t_env	*env, t_arg *arg)
 			if (!access(token->content, X_OK))
 			{
 				ft_putstr_fd("file not found", 2);
+				status.exit_status = 1;
 				return ;
 			}
 			arg->in_fd = open(token->content, O_RDONLY);

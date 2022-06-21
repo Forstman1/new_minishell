@@ -33,6 +33,7 @@ void	env(t_env *env)
 	if (i == 0)
 	{
 		printf("env not set\n");
+		status.exit_status = 1;
 		return ;
 	}
 }

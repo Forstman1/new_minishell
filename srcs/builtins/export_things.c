@@ -43,7 +43,7 @@ int	key_exist(t_env *lst, char	*find, int *j)
 					free(tmp);
 			}
 			else
-				lst->value = ft_strchr(find, '=') + 1;
+				lst->value = ft_strdup(ft_strchr(find, '=') + 1);
 			if (!lst->value)
 				lst->value = NULL;
 			return (1);
@@ -70,6 +70,7 @@ void	key_not_exist(t_env *lst, char	*find, int j, int i)
 		if (key[i] == '+' || key[i] == '-')
 		{
 			ft_putstr_fd("error\n", 2);
+			status.exit_status = 1;
 			free(key);
 			free(value);
 			return ;

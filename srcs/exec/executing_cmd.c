@@ -25,7 +25,9 @@ void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j)
 			ft_dup(token, arg, 0);
 		execve(arg->cmd_path, arg->cmd, arg->paths);
 	}
-	waitpid(i, NULL, 0);
+	waitpid(i, &status.exit_status, 0);
+	if (status.exit_status != 0)
+		status.exit_status = 1;
 }
 
 void	executing_builtins(t_token *token, t_arg *arg, t_env *env)

@@ -45,6 +45,7 @@ int	main(int ac, char **av, char **env)
 	while (env[i])
 		i++;
 	create_env(&envi, env, i);
+	status.exit_status = 0;
 	while (1)
 	{
 		arg.str = NULL;

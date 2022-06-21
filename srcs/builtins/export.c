@@ -27,6 +27,7 @@ int	check_keys(t_env *lst, char *str, int *j, int i)
 			else if (str[i - 1] == '-')
 			{
 				ft_putstr_fd("Error\n", 2);
+				status.exit_status = 1;
 				return (1);
 			}
 			return (0);
@@ -35,7 +36,7 @@ int	check_keys(t_env *lst, char *str, int *j, int i)
 	}
 	if (i == ft_strlen(str))
 	{
-		lst1 = ft_lstnew1(str, NULL);
+		lst1 = ft_lstnew1(ft_strdup(str), NULL);
 		ft_lstadd_back1(&lst, lst1);
 		return (1);
 	}

@@ -25,10 +25,21 @@ int	flag_option(t_env *env, char **str, int j, int i)
 			{
 				while (str[i])
 				{
-					if (str[i + 1] != NULL)
-						printf("%s ", str[i]);
+					if (!ft_strcmp("$?", str[i]))
+					{
+						if (str[i + 1] != NULL)
+							printf("%d ", status.exit_status);
+						else
+							printf("%d", status.exit_status);
+						status.exit_status = 0;
+					}
 					else
-						printf("%s", str[i]);
+					{
+						if (str[i + 1] != NULL)
+							printf("%s ", str[i]);
+						else
+							printf("%s", str[i]);
+					}
 					i++;
 				}
 				return (1);
@@ -60,10 +71,21 @@ void	echo_env1(t_env *env, char **str)
 	}
 	while (str[i])
 	{
-		if (str[i + 1] != NULL)
-			printf("%s ", str[i]);
+		if (!ft_strcmp("$?", str[i]))
+		{
+			if (str[i + 1] != NULL)
+				printf("%d ", status.exit_status);
+			else
+				printf("%d", status.exit_status);
+			status.exit_status = 0;
+		}
 		else
-			printf("%s", str[i]);
+		{
+			if (str[i + 1] != NULL)
+				printf("%s ", str[i]);
+			else
+				printf("%s", str[i]);
+		}
 		i++;
 	}
 	write(1, "\n", 1);

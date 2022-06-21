@@ -31,6 +31,7 @@ char	*pwd(t_env *env, int i)
 			{
 				if (i == 1)
 					printf("pwd is not set\n");
+				status.exit_status = 1;
 				return (NULL);
 			}
 		}

@@ -21,6 +21,7 @@ int	get_home(char	*home, t_env *lst)
 			if (chdir(lst->value))
 			{
 				printf("no such file or directory\n");
+				status.exit_status = 1;
 				return (1);
 			}
 			home = lst->value;
@@ -31,6 +32,7 @@ int	get_home(char	*home, t_env *lst)
 	if (!home)
 	{
 		printf("home not found\n");
+		status.exit_status = 1;
 		return (1);
 	}
 	return (0);

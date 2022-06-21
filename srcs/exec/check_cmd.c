@@ -35,6 +35,7 @@ int	check_path(t_env *env, t_arg *arg)
 	if (i != 1)
 	{
 		ft_putstr_fd("PATH not found\n", 2);
+		status.exit_status = 1;
 		return (1);
 	}
 }
@@ -58,6 +59,8 @@ int	checking_path(t_arg *arg, char	*str, char	*tmp)
 		}
 		i++;
 	}
+	ft_putstr_fd("Command not found\n", 2);
+	status.exit_status = 1;
 	return (0);
 }
 
@@ -69,7 +72,7 @@ int	check_cmd(t_env	*env, t_arg *arg, char *str)
 	i = 0;
 	arg->cmd = ft_split(str, ' ');
 	str = arg->cmd[0];
-	if (str[0] == '/')
+	if (str[0] == '/' || str[0] == '.')
 	{
 		if (!access(str, X_OK))
 		{
@@ -83,6 +86,7 @@ int	check_cmd(t_env	*env, t_arg *arg, char *str)
 			return (1);
 	}
 	ft_putstr_fd("Command not found\n", 2);
+	status.exit_status = 1;
 	return (0);
 }
 

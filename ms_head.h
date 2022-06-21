@@ -44,11 +44,18 @@ typedef struct s_env
 	struct s_env	*next;
 } t_env;
 
+typedef struct s_global
+{
+	int	exit_status;
+
+} t_global;
+
+t_global status;
+
 typedef struct s_token
 {
     struct s_token  *prev;
     int             token;
-    int             red_from; // redirected from
     char            *content;
     struct s_token  *next;
 }    t_token;
