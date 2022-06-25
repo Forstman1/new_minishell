@@ -45,6 +45,7 @@ void	print_export(char	**keys, t_env *sort, int i)
 		}
 		i++;
 	}
+	status.exit_status = 0;
 	free_export(keys, i);
 }
 

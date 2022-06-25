@@ -58,9 +58,8 @@ ARCHIVE = libft/libft.a
 
 all : $(NAME)
 
-$(NAME) : title $(OFILES) exec.c 
-	@$(CC) $(FLAGS)  exec.c $(ARCHIVE) $(CFILES) -o minishell -g
-	@make clean
+$(NAME) :  $(OFILES) exec.c 
+	@$(CC) $(FLAGS)  exec.c $(ARCHIVE) $(CFILES) -o minishell
 
 %.o:%.c
 	@$(CC) -o $@ -c $<
@@ -69,7 +68,7 @@ clean: title
 	@rm -f $(OFILES)
 
 fclean:	clean
-	@rm -f $(NAME) 
+	@rm -f $(NAME)
 
 re: fclean all
 

@@ -40,29 +40,29 @@ int	check_path(t_env *env, t_arg *arg)
 	}
 }
 
-int	checking_path(t_arg *arg, char	*str, char	*tmp)
-{
-	int		i;
-	char	*cmd_path;
+// int	checking_path(t_arg *arg, char	*str, char	*tmp)
+// {
+// 	int		i;
+// 	char	*cmd_path;
 
-	i = 0;
-	while (arg->paths[i])
-	{
-		cmd_path = ft_strjoin(arg->paths[i], "/");
-		tmp = cmd_path;
-		cmd_path = ft_strjoin(cmd_path, str);
-		free(tmp);
-		if (!access(cmd_path, X_OK))
-		{
-			arg->cmd_path = cmd_path;
-			return (1);
-		}
-		i++;
-	}
-	ft_putstr_fd("Command not found\n", 2);
-	status.exit_status = 1;
-	return (0);
-}
+// 	i = 0;
+// 	while (arg->paths[i])
+// 	{
+// 		cmd_path = ft_strjoin(arg->paths[i], "/");
+// 		tmp = cmd_path;
+// 		cmd_path = ft_strjoin(cmd_path, str);
+// 		free(tmp);
+// 		if (!access(cmd_path, X_OK))
+// 		{
+// 			arg->cmd_path = cmd_path;
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+// 	ft_putstr_fd("Command not found\n", 2);
+// 	status.exit_status = 1;
+// 	return (0);
+// }
 
 int	check_cmd(t_env	*env, t_arg *arg, char *str)
 {
@@ -70,23 +70,12 @@ int	check_cmd(t_env	*env, t_arg *arg, char *str)
 	char	*tmp;
 
 	i = 0;
-	arg->cmd = ft_split(str, ' ');
-	str = arg->cmd[0];
-	if (str[0] == '/' || str[0] == '.')
-	{
-		if (!access(str, X_OK))
-		{
-			arg->cmd_path = str;
-			return (1);
-		}
-	}
-	else
-	{
-		if (checking_path(arg, str, tmp))
-			return (1);
-	}
+	
+	
+	// if (checking_path(arg, str, tmp))
+	// 	return (1);
 	ft_putstr_fd("Command not found\n", 2);
-	status.exit_status = 1;
+	status.exit_status = 127;
 	return (0);
 }
 
@@ -104,7 +93,12 @@ void	builtins(t_env	*envi, char *str, t_arg *arg)
 	else if (!ft_strcmp1(splited[0], "env"))
 		env(envi);
 	else if (!ft_strcmp(splited[0], "exit"))
-		exit10();
+	{
+		if (splited[1] != NULL)
+			exit11(ft_atoi(splited[1]));
+		else
+			exit10();
+	}
 	else if (!ft_strcmp(splited[0], "cd"))
 		cd_env(envi, splited[0], splited[1]);
 	else if (!ft_strcmp(splited[0], "echo"))

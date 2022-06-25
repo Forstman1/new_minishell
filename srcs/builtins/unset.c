@@ -48,4 +48,5 @@ void	unset_env(t_env **env, char **str)
 		unset_utils(env, lst, str[i]);
 		i++;
 	}
+	status.exit_status = 0;
 }

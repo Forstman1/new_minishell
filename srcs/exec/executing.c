@@ -12,7 +12,7 @@
 
 #include "../../ms_head.h"
 
-void	her_doc(t_token *token, t_arg *arg)
+void	her_doc(t_shell *shell, t_arg *arg)
 {
 	int		i;
 	char	*str;
@@ -21,79 +21,86 @@ void	her_doc(t_token *token, t_arg *arg)
 	i = 0;
 	str = NULL;
 	tmp = NULL;
+	i = open("tmp", O_CREAT | O_WRONLY | O_APPEND);
 	while (1)
 	{
-		str = readline("");
-		if (!ft_strcmp(str, token->content))
+		str = readline("<< ");
+		if (!ft_strcmp(str, shell->data))
+		{
+			free(str);
+			return ;
+		}
+		else if (!str)
 			return ;
 		else
 		{
-			ft_putstr_fd(str, arg->in_fd);
+			ft_putstr_fd(str, i);
+			ft_putstr_fd("\n", i);
 			free(str);
 			str = NULL;
 		}
 	}
+	close(i);
 }
 
-int	one_cmd(t_env	*env, t_arg *arg)
+int	one_cmd(t_env	*env, t_arg *arg, t_shell *shell)
 {
-	int	i;
+	int		i;
+	t_shell	*lst;
 
 	i = 0;
-	while (arg->args[i])
-		i++;
-	if (i == 1)
+	lst = shell;
+	while (lst)
 	{
-		i = 0;
-		if (check_builtins(env, arg->args[i]))
+		if (lst->token == PIPE)
+			i++;
+	}
+	if (i == 0)
+	{
+		lst = shell;
+		if (lst->token == RED_IN)
 		{
-			builtins(env, arg->args[i], arg);
-			return (1);
+			arg->in_fd = lst->file;
+			lst = lst->next;
 		}
+		if (check_builtins(env, lst->data))
+		{
+			if (lst->next != NULL)
+				ft_dup(lst, arg, 1);
+			else
+				ft_dup(lst, arg, 0);
+		}
+		return (1);		
 	}
 	return (0);
 }
 
-void	check_command(t_env	*env, t_arg *arg)
+void	check_command(t_env	*env, t_arg *arg, t_shell *shell)
 {
-	t_env	*lst;
-	t_token	*token;
-
-	lst = env;
+	if (one_cmd(env, arg, shell))
+		return ;
 	if (!env)
 	{
 		ft_putstr_fd("envirement is not set\n", 2);
 		status.exit_status = 1;
 		return ;
 	}
-	if (one_cmd(env, arg))
-		return ;
-	while (token)
+	while (shell)
 	{
-		if (token->token == 'c')
+		if (shell->token == CMD)
 		{
-			if (cmd_token(token, arg, env))
+			if (cmd_token(shell, arg, env))
 				return ;
 			arg->in_fd = arg->fd[0];
 			close(arg->fd[1]);
 		}
-		else if (token->token == '<')
+		else if (shell->token == RED_IN)
+			arg->in_fd = shell->file;
+		else if (shell->token == HERE_DOC)
 		{
-			if (!access(token->content, X_OK))
-			{
-				ft_putstr_fd("file not found", 2);
-				status.exit_status = 1;
-				return ;
-			}
-			arg->in_fd = open(token->content, O_RDONLY);
-			token = token->next;
+			her_doc(shell, arg);
+			arg->in_fd = open("tmp", O_RDONLY);
 		}
-		else if (token->token == '<<')
-		{
-			arg->in_fd = open(".infile", O_CREAT | O_RDWR | O_APPEND);
-			her_doc(token, arg);
-		}
-		else
-			token = token->next;
+		shell = shell->next;
 	}
 }

@@ -12,7 +12,7 @@
 
 #include "../../ms_head.h"
 
-void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j)
+void	execute_func(t_env	*env, t_arg *arg, t_shell *shell, int j)
 {
 	int	i;
 
@@ -20,58 +20,64 @@ void	execute_func(t_env	*env, t_arg *arg, t_token *token, int j)
 	if (i == 0)
 	{
 		if (j == 1)
-			ft_dup(token, arg, 1);
+			ft_dup(shell, arg, 1);
 		else
-			ft_dup(token, arg, 0);
-		execve(arg->cmd_path, arg->cmd, arg->paths);
+			ft_dup(shell, arg, 0);
+		execve(shell->data, shell->switchs, arg->paths);
+		if (errno == EACCES || errno == EFAULT)
+			exit(127);
 	}
 	waitpid(i, &status.exit_status, 0);
-	if (status.exit_status != 0)
-		status.exit_status = 1;
+	if (WIFEXITED(status.exit_status))
+        status.exit_status = status.exit_status % 255;
+    else if (WIFSIGNALED(status.exit_status))
+        status.exit_status += 128;
 }
 
-void	executing_builtins(t_token *token, t_arg *arg, t_env *env)
+void	executing_builtins(t_shell *shell, t_arg *arg, t_env *env)
 {
 	int	id;
 
 	id = fork();
 	if (id == 0)
 	{
-		if (token->next != NULL)
-			ft_dup(token, arg, 1);
+		if (shell->next != NULL)
+			ft_dup(shell, arg, 1);
 		else
-			ft_dup(token, arg, 0);
-		builtins(env, token->content, arg);
+			ft_dup(shell, arg, 0);
+		builtins(env, shell->data, arg);
 		close(arg->fd[1]);
 		exit(0);
 	}
 	waitpid(id, NULL, 0);
 	close(arg->fd[1]);
-	token = token->next;
+	shell = shell->next;
 }
 
-int	cmd_token(t_token *token, t_arg *arg, t_env *env)
+int	cmd_token(t_shell *shell, t_arg *arg, t_env *env)
 {
 	int	j;
 
 	pipe(arg->fd);
-	if (check_builtins(env, token->content))
-		executing_builtins(token, arg, env);
+	if (check_builtins(env, shell->data))
+		executing_builtins(shell, arg, env);
 	else
 	{
-		if (check_path(env, arg))
-			return (1);
-		j = check_cmd(env, arg, token->content);
+		j = check_cmd(env, arg, shell->data);
 		if (j == 1)
 		{
-			if (token->next != NULL)
-				execute_func(env, arg, token, 1);
+			if (shell->next != NULL)
+				execute_func(env, arg, shell, 1);
 			else
-				execute_func(env, arg, token, 0);
-			token = token->next;
+				execute_func(env, arg, shell, 0);
+			shell = shell->next;
 		}
 		else
+		{
+			close(arg->fd[0]);
+			close(arg->fd[1]);
 			return (1);
+		}
 	}
 	return (0);
 }

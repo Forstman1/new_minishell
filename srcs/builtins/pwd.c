@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By:  <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sahafid <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/27 18:19:40 by            #+#    #+#             */
 /*   Updated: 2022/05/27 18:19:41 by           ###   ########.fr       */
@@ -25,6 +25,7 @@ char	*pwd(t_env *env, int i)
 			{
 				if (i == 1)
 					printf("%s\n", lst->value);
+				status.exit_status = 0;
 				return (lst->value);
 			}
 			else

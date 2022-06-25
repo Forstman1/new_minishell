@@ -46,6 +46,7 @@ int	key_exist(t_env *lst, char	*find, int *j)
 				lst->value = ft_strdup(ft_strchr(find, '=') + 1);
 			if (!lst->value)
 				lst->value = NULL;
+			status.exit_status = 0;
 			return (1);
 		}
 		lst = lst->next;
@@ -79,6 +80,7 @@ void	key_not_exist(t_env *lst, char	*find, int j, int i)
 	}
 	lst1 = ft_lstnew1(key, value);
 	ft_lstadd_back1(&lst, lst1);
+	status.exit_status = 0;
 }
 
 void	export_things(t_env *env, char	*find, t_arg *arg)

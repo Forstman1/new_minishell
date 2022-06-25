@@ -29,6 +29,7 @@ void	env(t_env *env)
 			printf("%s=%s\n", lst->key, lst->value);
 		lst = lst->next;
 		i++;
+		status.exit_status = 0;
 	}
 	if (i == 0)
 	{
